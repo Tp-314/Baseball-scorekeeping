@@ -36,6 +36,9 @@ class GameState:
             self.inning += 1
             
     def record_play(self, batter: str, runners: dict, event_type: str):
+        for i, occupied in enumerate(self.bases):
+            if occupied and i not in [int(k) for k in runners.keys()]:
+                raise ValueError(f"Runner on base {i} not accounted for in this play")
         """
         batter:     "out" | "1b" | "2b" | "3b" | "hr" | "walk"
         runners:    { from_base(int): to_base(int|"score"|"out") }
